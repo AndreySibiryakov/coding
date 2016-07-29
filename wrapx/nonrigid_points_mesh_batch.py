@@ -6,8 +6,8 @@ path = wrap.openFileDialog()
 target_scan_dir = os.path.dirname(path) + "/"
 print 'choosed dir - ' + target_scan_dir'''
 
-target_scan_dir = 'd:/Cthulhu/3d_scanning/Leha_phomens/selected_result/aligned/'
-uni_topo_mesh_polygons_mask_path = 'd:/Cthulhu/3d_scanning/Leha_phomens/selected_result/aligned_nonrigid_transfer/mother_polygons.txt'
+target_scan_dir = 'd:/Cthulhu/3d_scanning/Leha_phomens/aligned_nonrigid_transfer/'
+uni_topo_mesh_polygons_mask_path = 'd:/Cthulhu/3d_scanning/Leha_phomens/aligned_nonrigid_transfer/neutral.polygons'
 
 
 def get_file_path(name, mesh_list, type = 'obj'):  
@@ -21,7 +21,7 @@ def generate_points_name(name, target_scan_dir, prefix='_nonrigid'):
     return file_name
 
 def generate_universal_topology_name(name, target_scan_dir, prefix='_uni'):  
-    file_name = target_scan_dir + name + prefix # + '.obj'
+    file_name = target_scan_dir + name + prefix + '.obj'
     return file_name
 
 def get_rigid_aligned_name(file_path, type = 'obj'):  
@@ -38,7 +38,7 @@ def get_scan_names(scan_files_list, neutral = True):
             split_name = split_path[-1].split('.')  
             split_names_list.append(split_name[0])  
         
-    scan_names_list = list(set(split_names_list))  
+    scan_names_list = list(set(split_names_list)) 
     if neutral == False:
         scan_names_list.remove('neutral')  
     return scan_names_list  
@@ -72,15 +72,14 @@ for scan_name in scan_names:
     scan_mesh.wireframe = False  
     scan_mesh.texture = wrap.Image(scan_mesh_texture)  
     scan_mesh.texture.show()  
-    #scan_mesh_points = wrap.selectPoints(scan_mesh)
-    if os.path.isfile(neutral_mesh_points_path) == True:
+    if os.path.isfile(uni_topo_mesh_points_path) == True:
         if os.path.isfile(scan_mesh_points_path) == True:
-            uni_topo_mesh_mesh_points = wrap.loadPoints(uni_topo_mesh_points_path)
+            uni_topo_mesh_points = wrap.loadPoints(uni_topo_mesh_points_path)
             scan_mesh_points = wrap.loadPoints(scan_mesh_points_path)
-            uni_topo_mesh_polygons_mask = wrap.selectPolygons(uni_topo_mesh_polygons_mask_path)
-            scan_mesh = wrap.nonRigidRegistration(uni_topo_mesh, scan_mesh,
-                                            uni_topo_mesh_mesh_points, scan_mesh_points,
-                                            uni_topo_mesh_polygons_mask,
+            #uni_topo_mesh_polygons_mask = wrap.loadPolygons(uni_topo_mesh_polygons_mask_path)
+            uni_topo_mesh = wrap.nonRigidRegistration(uni_topo_mesh, scan_mesh,
+                                            uni_topo_mesh_points, scan_mesh_points,
+                                            #uni_topo_mesh_polygons_mask,
                                             minNodes = 15, #changed from 15
                                             initialRadiusMultiplier = 1.0, # changed from 1
                                             # smoothnessInitial = 0.1,
