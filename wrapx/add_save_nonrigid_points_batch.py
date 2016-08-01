@@ -1,4 +1,4 @@
-import wrap
+﻿import wrap
 import os
 import os.path
 
@@ -8,8 +8,8 @@ path = wrap.openFileDialog()
 target_scan_dir = os.path.dirname(path) + "/"
 print 'choosed dir - ' + target_scan_dir'''
 
-target_scan_dir = 'd:/Cthulhu/3d_scanning/Leha_phomens/selected_result/aligned/'
-
+target_scan_dir = 'd:/Cthulhu/3d_scanning/Leha_phomens/neutral_uni_nonrigid_generate/'
+neutral_name = 'neutral_uni'
 
 def get_file_path(name, mesh_list, type = 'obj'):  
     for mesh_name in mesh_list:  
@@ -37,7 +37,7 @@ def get_scan_names(scan_files_list, neutral = True):
         
     scan_names_list = list(set(split_names_list))  
     if neutral == False:
-        scan_names_list.remove('neutral')  
+        scan_names_list.remove(neutral_name)  
     return scan_names_list  
      
 scan_files_list = [] 
@@ -52,7 +52,6 @@ for path, dirs, file_names in os.walk(target_scan_dir):
 scan_names = get_scan_names(scan_files_list, neutral=False)  
 
 # load mesh for nonrigid points
-neutral_name = 'neutral'
 neutral_mesh = get_file_path(neutral_name, scan_files_list, type = 'obj')  
 neutral_mesh_texture = get_file_path(neutral_name, scan_files_list, type = 'jpg')  
 neutral_mesh_points_path = generate_points_name(neutral_name, target_scan_dir, prefix='_nonrigid')
