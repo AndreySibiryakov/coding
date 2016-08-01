@@ -2,12 +2,6 @@
 import os
 import os.path
 
-'''
-# êîñòûëü äëÿ âûáîðà ïàïêè (âûáèðàåì ëþáîé ôàéë èç íóæíîé íàì ïàïêè)
-path = wrap.openFileDialog()
-target_scan_dir = os.path.dirname(path) + "/"
-print 'choosed dir - ' + target_scan_dir'''
-
 target_scan_dir = 'd:/Cthulhu/3d_scanning/Leha_phomens/neutral_uni_nonrigid_generate/'
 neutral_name = 'neutral_uni'
 
@@ -70,12 +64,26 @@ for scan_name in scan_names:
     scan_mesh.texture = wrap.Image(scan_mesh_texture)  
     scan_mesh.texture.show()  
     #scan_mesh_points = wrap.selectPoints(scan_mesh)
+    neutral_check = False
+    scan_check = False
     if os.path.isfile(neutral_mesh_points_path) == True:
         neutral_mesh_points = wrap.loadPoints(neutral_mesh_points_path)
-        (scan_mesh_points, neutral_mesh_points) = wrap.selectPoints(scan_mesh, neutral_mesh, pointsRight=neutral_mesh_points)
-        wrap.savePoints(scan_mesh_points, scan_mesh_points_path)
+        neutral_check = True
+    if os.path.isfile(scan_mesh_points_path) == True:
+        scan_mesh_points = wrap.loadPoints(scan_mesh_points_path)
+        scan_check = True
+    # 
+    if (neutral_check == True and scan_check == True):
+        (scan_mesh_points, neutral_mesh_points) = wrap.selectPoints(scan_mesh, neutral_mesh, 
+                                                                    pointsRight=neutral_mesh_points,
+                                                                    pointsLeft=scan_mesh_points)
+    elif (neutral_check == False and scan_check == True):
+        (scan_mesh_points, neutral_mesh_points) = wrap.selectPoints(scan_mesh, neutral_mesh, 
+                                                                    pointsLeft=scan_mesh_points)
+    elif (neutral_check == True and scan_check == False):
+        (scan_mesh_points, neutral_mesh_points) = wrap.selectPoints(scan_mesh, neutral_mesh, 
+                                                                    pointsRight=neutral_mesh_points)
     else:
-        print "neutral nonrigid points not found"
         (scan_mesh_points, neutral_mesh_points) = wrap.selectPoints(scan_mesh, neutral_mesh)
-        wrap.savePoints(scan_mesh_points, scan_mesh_points_path)        
-        wrap.savePoints(neutral_mesh_points, neutral_mesh_points_path)
+    wrap.savePoints(scan_mesh_points, scan_mesh_points_path)        
+    wrap.savePoints(neutral_mesh_points, neutral_mesh_points_path)
