@@ -1,8 +1,12 @@
 ﻿import wrap
 import os
-import os.path
 
-target_scan_dir = 'd:/Cthulhu/3d_scanning/Leha_phomens/neutral_uni_nonrigid_generate/'
+
+path = wrap.openFileDialog()
+target_scan_dir = os.path.dirname(path) + "/"
+print 'choosed dir - ' + target_scan_dir
+
+#target_scan_dir = 'd:/Cthulhu/3d_scanning/Leha_phomens/neutral_uni_nonrigid_generate/'
 neutral_name = 'neutral_uni'
 
 def get_file_path(name, mesh_list, type = 'obj'):  
