@@ -9,6 +9,7 @@ chunks.create_joints.create_joints()
 
 HZrivet should be installed prior.
 https://www.creativecrash.com/maya/script/hzrivet
+or https://dl.dropboxusercontent.com/u/72061596/mayaScripts/HZrivet/HZrivet.zip 
 
 Also HZrivet was modified 
 to name locators according to mask LOC_0...
